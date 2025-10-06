@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Setup Paystack
     let handler = PaystackPop.setup({
-      key: "pk_test_01fde1b2b46ec04f96dc1d5b3b46a325febd2d39",
+      key: "pk_live_1398907aed1e1d78249e3f8f4ba9ea593d70d57a",
       email,
       amount: finalAmount,
       currency,
