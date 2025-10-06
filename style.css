@@ -315,6 +315,12 @@ section {
 .register-btn:hover {
   background: #146c43;
 }
+label[for]::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+
 
 /* Modal */
 .modal {
