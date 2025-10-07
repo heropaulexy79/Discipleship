@@ -241,24 +241,29 @@ section {
 .footer-sub {
   font-size: 13px;
   opacity: 0.9;
+  padding-top: 10px;
 }
 
 .footer-right {
   font-size: 13px;
   opacity: 0.9;
 }
+.social-icons {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 10px;
+}
 
+.social-icons a {
+  color: #ccc;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
 
-    /* Sticky CTA for mobile */
-    .sticky-cta{display:none}
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr;}
-      .info-grid{grid-template-columns:1fr}
-      .hero-right{justify-content:flex-start}
-      .sticky-cta{display:flex; position:fixed; left:12px; right:12px; bottom:12px; justify-content:center; z-index:999}
-      .sticky-cta .btn{width:100%; border-radius:10px;}
-      .activities-grid{grid-template-columns:1fr}
-    }
+.social-icons a:hover {
+  color: #198754; /* matches your brand green */
+}
+
 
     /* simple scroll reveal */
     .reveal{opacity:0; transform:translateY(12px); transition:all .7s cubic-bezier(.22,.9,.22,1)}
