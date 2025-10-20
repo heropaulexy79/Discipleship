@@ -524,6 +524,45 @@ label[for]::after {
   .video-card iframe { height: 420px; }
   .prev-btn, .next-btn { width: 36px; height: 36px; font-size: 16px; }
 }
+/* ========== RESPONSIVE FIXES ========== */
 
+/* This targets screens 768px wide or smaller */
+@media (max-width: 768px) {
+
+  /* Stacks the hero section (image below text) */
+  .hero {
+    grid-template-columns: 1fr; /* Change from 2 columns to 1 */
+    gap: 20px;
+  }
+
+  /* Stacks the main content and sidebar */
+  .info-grid {
+    grid-template-columns: 1fr; /* Change from 2 columns to 1 */
+    gap: 20px;
+  }
+
+  .hero-left {
+    padding: 12px;
+    text-align: center; /* Optional: centers hero text */
+  }
+
+  .cta-row {
+    justify-content: center; /* Optional: centers buttons */
+  }
+
+  /* Stacks the footer elements */
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+}
+
+/* A smaller breakpoint for the hero heading if needed */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 36px; /* Makes heading smaller on very small screens */
+  }
+}
 
 
