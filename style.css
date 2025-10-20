@@ -1,16 +1,5 @@
 /* Add spacing between What to Expect cards on mobile */
-@media (max-width: 768px) {
-  .activity-card {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* adds nice breathing space between cards */
-    margin-top: 1rem;
-  }
-
-  .activity-card {
-    margin: 0 10px; /* small side margin for better balance */
-  }
-}
+/* NOTE: All @media queries have been moved to the bottom */
 
 
     :root{
@@ -118,14 +107,6 @@ section {
 }
 
 
-@media (max-width: 768px) {
-  section {
-    padding: 15px 15px;
-  }
-  
-}
-
-
     /* INFO GRID */
     .info-grid{display:grid; grid-template-columns:1fr 380px; gap:28px; margin-top:34px}
     .card{background:#fff; padding:18px; border-radius:12px; box-shadow:0 6px 18px rgba(11,43,34,.08)}
@@ -168,10 +149,6 @@ section {
 .facilitator-text p {
   margin-bottom: 1rem;
   line-height: 1.6;
-}
-@media (max-width: 768px) {
-  .facilitator-box { flex-direction: column; text-align: center; }
-  .facilitator img { width: 180px; }
 }
 
     /* DATES */
@@ -518,51 +495,82 @@ label[for]::after {
 }
 .testimonial-dots button.active { background: #fff; }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .testimonial-slider-wrapper { max-width: 300px; }
-  .video-card iframe { height: 420px; }
-  .prev-btn, .next-btn { width: 36px; height: 36px; font-size: 16px; }
-}
-/* ========== RESPONSIVE FIXES ========== */
 
-/* This targets screens 768px wide or smaller */
+
+/* ========== CONSOLIDATED MOBILE STYLES ========== */
+
+/*
+ * This block combines all styles for screens 768px or less.
+ */
 @media (max-width: 768px) {
 
-  /* Stacks the hero section (image below text) */
+  /* 'What to Expect' cards */
+  .activity-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 1rem;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  /* General section padding */
+  section {
+    padding: 15px 15px;
+  }
+  
+  /* Facilitator section */
+  .facilitator-box { 
+    flex-direction: column; 
+    text-align: center; 
+  }
+  .facilitator img { 
+    width: 180px; 
+  }
+  
+  /* Hero section */
   .hero {
-    grid-template-columns: 1fr; /* Change from 2 columns to 1 */
+    grid-template-columns: 1fr; /* Stacks hero */
     gap: 20px;
   }
 
-  /* Stacks the main content and sidebar */
+  /* Main content grid */
   .info-grid {
-    grid-template-columns: 1fr; /* Change from 2 columns to 1 */
+    grid-template-columns: 1fr; /* Stacks info grid */
     gap: 20px;
   }
 
   .hero-left {
     padding: 12px;
-    text-align: center; /* Optional: centers hero text */
+    text-align: center; 
   }
 
   .cta-row {
-    justify-content: center; /* Optional: centers buttons */
+    justify-content: center; /* Centers buttons */
   }
 
-  /* Stacks the footer elements */
+  /* Footer */
   .footer-inner {
-    flex-direction: column;
+    flex-direction: column; /* Stacks footer */
     text-align: center;
     gap: 20px;
   }
 }
 
-/* A smaller breakpoint for the hero heading if needed */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 36px; /* Makes heading smaller on very small screens */
-  }
+/*
+ * Smaller screen adjustments (600px)
+ */
+@media (max-width: 600px) {
+  .testimonial-slider-wrapper { max-width: 300px; }
+  .video-card iframe { height: 420px; }
+  .prev-btn, .next-btn { width: 36px; height: 36px; font-size: 16px; }
 }
 
-
+/*
+ * Smallest screen heading fix (480px)
+ */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 36px; /* Makes heading smaller */
+  }
+}
