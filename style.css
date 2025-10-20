@@ -502,9 +502,12 @@ label[for]::after {
 /*
  * This block combines all styles for screens 768px or less.
  */
+/*
+ * This block combines all styles for screens 768px or less.
+ */
 @media (max-width: 768px) {
 
-  /* 'What to Expect' cards */
+  /* 'What to Expect' card styling */
   .activity-card {
     display: flex;
     flex-direction: column;
@@ -514,6 +517,11 @@ label[for]::after {
     margin-right: 10px;
   }
   
+  /* THIS IS THE NEW RULE YOU NEED */
+  .activities-grid {
+    grid-template-columns: 1fr; /* Stacks the 'What to Expect' cards */
+  }
+
   /* General section padding */
   section {
     padding: 15px 15px;
