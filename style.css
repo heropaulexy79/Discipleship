@@ -506,6 +506,9 @@ label[for]::after {
  * This block combines all styles for screens 768px or less.
  */
 @media (max-width: 768px) {
+  h3 {
+    text-align: center !important;
+}
 
   /* 'What to Expect' card styling */
   .activity-card {
