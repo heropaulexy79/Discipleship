@@ -506,6 +506,12 @@ label[for]::after {
  * This block combines all styles for screens 768px or less.
  */
 @media (max-width: 768px) {
+  .social-icons {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 10px;
+    justify-content: center !important;
+}
   h3 {
     text-align: center !important;
 }
