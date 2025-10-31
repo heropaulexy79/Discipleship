@@ -1,5 +1,3 @@
-
-
 // ========== REVEAL ON SCROLL ==========
 function revealOnScroll() {
   document.querySelectorAll('.reveal').forEach(el => {
@@ -13,54 +11,39 @@ window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
 // ========== TESTIMONIAL SLIDER ==========
-// const container = document.getElementById('testimonialContainer');
-// let index = 0;
-// if (container) {
-//   const total = container.children.length;
-
-//   function showSlide(i) {
-//     index = (i + total) % total;
-//     container.style.transform = `translateX(-${index * 100}%)`;
-//   }
-
-//   function nextSlide() { showSlide(index + 1); }
-//   function prevSlide() { showSlide(index - 1); }
-
-//   // Auto-slide every 5s
-//   setInterval(nextSlide, 5000);
-
-//   // Expose for button controls
-//   window.nextSlide = nextSlide;
-//   window.prevSlide = prevSlide;
-// }
 const slider = document.querySelector('.testimonial-slider');
-const totalSlides = slider.children.length;
-let currentIndex = 0;
+if (slider) {
+  const totalSlides = slider.children.length;
+  let currentIndex = 0;
 
-function stopAllVideos() {
-  const iframes = slider.querySelectorAll('iframe');
-  iframes.forEach(iframe => {
-    // Reset the video source to stop playback
-    const src = iframe.src;
-    iframe.src = src;
-  });
+  function stopAllVideos() {
+    const iframes = slider.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      const src = iframe.src;
+      iframe.src = src; // reset to stop playback
+    });
+  }
+
+  function showSlide(index) {
+    stopAllVideos();
+    currentIndex = (index + totalSlides) % totalSlides;
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  function nextVideo() { showSlide(currentIndex + 1); }
+  function prevVideo() { showSlide(currentIndex - 1); }
+
+  // Auto-slide every 70 seconds
+  setInterval(nextVideo, 70000);
+
+  // Optional: expose for manual control
+  window.nextVideo = nextVideo;
+  window.prevVideo = prevVideo;
 }
-
-function showSlide(index) {
-  stopAllVideos(); // stop previous videos before sliding
-  currentIndex = (index + totalSlides) % totalSlides;
-  slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-}
-
-function nextVideo() { showSlide(currentIndex + 1); }
-function prevVideo() { showSlide(currentIndex - 1); }
-
-// Auto-slide every 70 seconds
-setInterval(nextVideo, 70000);
 
 // ========== REGISTRATION FORM + PAYSTACK ==========
-const sheetURL = "https://script.google.com/macros/s/AKfycbwHGG7B_BzPVelzxJc3cat34ai1j3sL0iqv-FFa_t9SDNCPtNpLN33Vrs33TPwVXObF/exec"; 
-const whatsappLink = "https://chat.whatsapp.com/FGKtfnhZAbu4qQbQALNCnN?mode=ems_copy_c"; 
+const sheetURL = "https://script.google.com/macros/s/AKfycbynqMrMdHoLZGKh7bI4TWaVZgyfWEVHJfsw5gNLPEb5Kyh73mMYxeyMxkILwyiah9X2/exec";
+const whatsappLink = "https://chat.whatsapp.com/FGKtfnhZAbu4qQbQALNCnN";
 
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("paymentModal");
@@ -85,21 +68,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Decide amount & currency
     let amount = 0, currency = "NGN";
-    switch(plan) {
+    switch (plan) {
       case "NGN_Full": amount = 75000; currency = "NGN"; break;
       case "NGN_Installment": amount = 40000; currency = "NGN"; break;
-      // case "USD_Full": amount = 50; currency = "USD"; break;
-      // case "USD_Installment": amount = 35; currency = "USD"; break;
       default: alert("Invalid plan."); return;
     }
 
-    let finalAmount = amount * 100; // kobo or cents
+    const finalAmount = amount * 100; // convert to kobo
 
-    // Show modal
     if (modal) modal.style.display = "block";
 
-    // Setup Paystack
-    let handler = PaystackPop.setup({
+    const handler = PaystackPop.setup({
       key: "pk_live_1398907aed1e1d78249e3f8f4ba9ea593d70d57a",
       email,
       amount: finalAmount,
@@ -116,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
       callback: function(response) {
         const paymentRef = response.reference;
 
-        // Send data to Google Sheets (mode: no-cors to avoid CORS issue)
+        // Send to Google Sheet
         fetch(sheetURL, {
           method: "POST",
           body: JSON.stringify({ name, email, phone, location, expectations, plan, amount, currency, paymentRef }),
@@ -124,9 +103,50 @@ document.addEventListener("DOMContentLoaded", () => {
           mode: "no-cors"
         }).catch(err => console.warn("Note: cannot read response due to no-cors mode.", err));
 
-        // Hide modal and redirect
+        // Close modal
+        document.body.style.overflow = "auto";
         if (modal) modal.style.display = "none";
-        window.location.href = whatsappLink;
+
+        // Redirect to WhatsApp after small delay
+        setTimeout(() => {
+          try {
+            window.location.href = whatsappLink;
+          } catch (e) {
+            console.error("Redirect failed:", e);
+          }
+        }, 500);
+
+        // ===== FALLBACK JOIN BUTTON (in case redirect fails) =====
+        setTimeout(() => {
+          if (!document.getElementById("joinWhatsappFallback")) {
+            const fallbackDiv = document.createElement("div");
+            fallbackDiv.id = "joinWhatsappFallback";
+            fallbackDiv.style.position = "fixed";
+            fallbackDiv.style.top = "0";
+            fallbackDiv.style.left = "0";
+            fallbackDiv.style.width = "100%";
+            fallbackDiv.style.height = "100%";
+            fallbackDiv.style.background = "rgba(0,0,0,0.85)";
+            fallbackDiv.style.display = "flex";
+            fallbackDiv.style.flexDirection = "column";
+            fallbackDiv.style.alignItems = "center";
+            fallbackDiv.style.justifyContent = "center";
+            fallbackDiv.style.zIndex = "9999";
+            fallbackDiv.innerHTML = `
+              <div style="background:#fff; padding:30px 40px; border-radius:16px; text-align:center; max-width:420px; box-shadow:0 6px 20px rgba(0,0,0,0.3);">
+                <h2 style="color:#1e3a8a; margin-bottom:12px;">Payment Successful 🎉</h2>
+                <p style="margin-bottom:20px; color:#333; font-size:15px;">
+                  If you were not redirected automatically,<br>
+                  click below to join the WhatsApp group.
+                </p>
+                <a href="${whatsappLink}" target="_blank" style="background:#1e3a8a; color:#00ffff; text-decoration:none; padding:12px 26px; border-radius:8px; font-weight:600; transition:0.3s;">
+                  Join WhatsApp Group
+                </a>
+              </div>
+            `;
+            document.body.appendChild(fallbackDiv);
+          }
+        }, 3000); // Show fallback after 3 seconds
       },
       onClose: function() {
         if (modal) modal.style.display = "none";
